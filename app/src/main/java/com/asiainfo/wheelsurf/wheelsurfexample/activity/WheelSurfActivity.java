@@ -33,7 +33,7 @@ public class WheelSurfActivity extends Activity {
 
                 } else {
 
-                    if (mLuckyPan.isShouldEnd()) {
+                    if (!mLuckyPan.isShouldEnd()) {
 
                         mLuckyPan.luckyEnd();
                         mStartBtn.setImageResource(R.drawable.pan_start);
