@@ -2,7 +2,6 @@ package com.asiainfo.wheelsurf.wheelsurfexample.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,9 +25,8 @@ public class WheelSurfActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (!mLuckyPan.isStart()) {
-                    Log.e("WheelSurfActivity", "转转盘可以旋转啦,(=@__@=)哪里？...");
 
-                    mLuckyPan.luckyStart();
+                    mLuckyPan.luckyStart(1);
                     mStartBtn.setImageResource(R.drawable.pan_stop);
 
                 } else {

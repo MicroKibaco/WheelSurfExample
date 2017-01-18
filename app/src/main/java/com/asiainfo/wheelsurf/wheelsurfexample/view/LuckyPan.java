@@ -108,7 +108,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
      *
      * @param context
      */
-    private volatile int mStartAngle = 0;
+    private volatile float mStartAngle = 0;
 
     /**
      * 判断是否点击了停止按钮
@@ -273,8 +273,37 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
     /**
      * 点击启动旋转
      */
-    public void luckyStart() {
-        mSpeed = 50;
+    public void luckyStart(int index) {
+
+        //计算每一项的角度
+        int angle = 360 / mItemCount;
+
+        //计算每一项中奖的范围(当前index)
+        //0--->150~210
+        //0--->210~270
+
+        float from = 270 - (index + 1) * angle;
+        float end = from + angle;
+
+        //设置停下来需要旋转的距离
+        float targetFrom = 4 * 360 + from;
+        float targetEnd = 4 * 360 + end;
+
+        /**
+         * <pre>
+         *    v1-->0 每次速度减1
+         *    100 + 1
+         *    (v1 + 0)*(v1+1)/2
+         *    v1 = (-1 + Math.sqrt(1+8*targetFrom))/2
+         *
+         * </pre>
+         */
+        float v1 = (float) ((-1 + Math.sqrt(1 + 8 * targetFrom)) / 2);
+        float v2 = (float) ((-1 + Math.sqrt(1 + 8 * targetEnd)) / 2);
+
+        mSpeed = v1 + Math.random() * (v2 - v1); //永远是ipad,可以根据索引随机抽选自己的奖品
+        //mSpeed = v1;   //停在MacAri2边缘线
+        //mSpeed = 50; //随机抽奖
         isShouldEnd = false;
     }
 
@@ -282,6 +311,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
      * 点击停止旋转
      */
     public void luckyEnd() {
+        mStartAngle = 0;
         isShouldEnd = true;
     }
 

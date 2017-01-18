@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="mtrStrs">
+        <item>SonyCamera</item>
+        <item>MacAir2</item>
+        <item>恭喜发财</item>
+        <item>iPhone7Plus</item>
+        <item>Burberry风衣</item>
+        <item>再接再厉!</item>
+    </string-array>
+</resources>
