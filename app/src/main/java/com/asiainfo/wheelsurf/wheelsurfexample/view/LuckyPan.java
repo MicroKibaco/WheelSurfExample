@@ -271,7 +271,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     /**
-     * 点击启动旋转
+     * 点击启动旋转 扩展:控制概率:在外面套一层,如:1-10 index = ? 10-200: index = ? 接下来为99%
      */
     public void luckyStart(int index) {
 
@@ -301,7 +301,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
         float v1 = (float) ((-1 + Math.sqrt(1 + 8 * targetFrom)) / 2);
         float v2 = (float) ((-1 + Math.sqrt(1 + 8 * targetEnd)) / 2);
 
-        mSpeed = v1 + Math.random() * (v2 - v1); //永远是ipad,可以根据索引随机抽选自己的奖品
+        mSpeed = v1 + Math.random() * (v2 - v1); //可以根据索引随机抽选自己的奖品
         //mSpeed = v1;   //停在MacAri2边缘线
         //mSpeed = 50; //随机抽奖
         isShouldEnd = false;
