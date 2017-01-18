@@ -21,7 +21,7 @@ import static android.graphics.BitmapFactory.decodeResource;
  * SurfaceView扩展类
  */
 
-public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runnable {
+public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private SurfaceHolder mHolder;
     private Canvas mCanvas;
@@ -35,19 +35,20 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     /**
      * 线程的控制开关
+     *
      * @param context
      */
     private boolean isRunning;
 
     /**
-     *盘快的奖项
+     * 盘快的奖项
      */
-    private String [] mtrStrs = new String[]{"单反相机","IPAD","恭喜发财","IPHONE","服装一套","下次再来"};
+    private String[] mtrStrs = new String[]{"SonyCamera", "MacAir2", "恭喜发财", "iPhone7Plus", "服装一套", "下次再来"};
 
     /**
      * 奖项的图片
      */
-    private int[] mImags = new int[]{R.drawable.pan_camera,R.drawable.pan_ipad,R.drawable.pan_congratulation,R.drawable.pan_iphone,R.drawable.pan_beauty,R.drawable.pan_misslucky};
+    private int[] mImags = new int[]{R.drawable.pan_camera, R.drawable.pan_ipad, R.drawable.pan_congratulation, R.drawable.pan_iphone, R.drawable.pan_beauty, R.drawable.pan_misslucky};
 
 
     /**
@@ -61,44 +62,50 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
     /**
      * 盘快的颜色
      */
+
     private int[] mColors = new int[]{0xFFFFC300, 0xFFF17E01, 0xFFFFC300, 0xFFF17E01, 0xFFFFC300, 0xFFF17E01};
 
-    private  int mItemCount = 6;
+    private int mItemCount = 6;
 
 
     /**
      * 绘制文本的画笔
+     *
      * @param context
      */
     private Paint mTextPaint;
 
-    private float mTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SHIFT,20,getResources().getDisplayMetrics());
+    private float mTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics());
 
     /**
      * 整个盘快的范围
      */
-    private  RectF mRange =new RectF();
+    private RectF mRange = new RectF();
 
     /**
      * 整个盘快的直径
+     *
      * @param context
      */
     private int mRadius;
 
     /**
      * 绘制盘快的画笔
+     *
      * @param context
      */
     private Paint mArcPaint;
 
     /**
      * 盘快滚动的速度
+     *
      * @param context
      */
     private double mSpeed;
 
     /**
      * 盘快的速度
+     *
      * @param context
      */
     private volatile int mStartAngle = 0;
@@ -115,6 +122,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     /**
      * 这里我们的padding直接已paddingLeft为准
+     *
      * @param context
      */
     private int mPadding;
@@ -125,8 +133,6 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     /**
      * 在SurfaceTempalte 构造 里面初始化Holder,设置我们常用的设置
-     * @param context
-     * @param attrs
      */
 
     public LuckyPan(Context context, AttributeSet attrs) {
@@ -145,7 +151,6 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     /**
      * 在surfaceCreated启动我们的线程
-     * @param holde
      */
 
     @Override
@@ -162,13 +167,13 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
         mTextPaint.setTextSize(mTextSize);
 
         //初始化盘快绘制的范围
-        mRange =  new RectF(mPadding,mPadding,mPadding+mRadius,mPadding+mRadius);
+        mRange = new RectF(mPadding, mPadding, mPadding + mRadius, mPadding + mRadius);
 
         //初始化图片
         mImageBitmap = new Bitmap[mItemCount];
 
         for (int i = 0; i < mItemCount; i++) {
-            mImageBitmap[i] = BitmapFactory.decodeResource(getResources(),mImags[i]);
+            mImageBitmap[i] = BitmapFactory.decodeResource(getResources(), mImags[i]);
         }
         isRunning = true;
 
@@ -183,30 +188,29 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     /**
      * 在 surfaceDestroyed 关闭我们的线程
-     * @param holder
      */
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
-        isRunning = false ;
+        isRunning = false;
     }
 
 
     /**
-     *在线程中进行我们真正的绘制操作
+     * 在线程中进行我们真正的绘制操作
      */
 
     @Override
     public void run() {
 
-        while (isRunning){
+        while (isRunning) {
             long start = System.currentTimeMillis();
             draw();
             long end = System.currentTimeMillis();
-            if (end-start<50){
+            if (end - start < 50) {
                 try {
-                    Thread.sleep(50-(end-start));
+                    Thread.sleep(50 - (end - start));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -216,11 +220,12 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     private void draw() {
         try {
-            mCanvas = mHolder . lockCanvas();
+            mCanvas = mHolder.lockCanvas();
 
-            if (mCanvas !=  null){
+            if (mCanvas != null) {
                 //draw something
                 drawBg();
+
                 //绘制盘快
 
                 float tmpAngle = mStartAngle;
@@ -234,17 +239,45 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
                     //绘制文本
                     drawText(tmpAngle, sweepAngle, mtrStrs[i]);
+
+                    //绘制Icon图标
+                    drawIcon(tmpAngle, mImageBitmap[i]);
+
+                    tmpAngle += sweepAngle;
+
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
 
-            if (mCanvas!=null){
+            if (mCanvas != null) {
 
                 mHolder.unlockCanvasAndPost(mCanvas);
             }
         }
+    }
+
+    /**
+     * 绘制Icon
+     */
+    private void drawIcon(float tmpAngle, Bitmap bitmap) {
+
+        //设置图片的宽度为直径的1/8
+        int imgWidth = mRadius / 8;
+
+        //Math.PI/180
+        float angle = (float) ((tmpAngle + 360 / mItemCount / 2) * Math.PI / 180);
+
+        int x = (int) (mCenter + mRadius / 2 / 2 * Math.cos(angle));
+        int y = (int) (mCenter + mRadius / 2 / 2 * Math.sin(angle));
+
+        //确定图片的位置
+        Rect rect = new Rect(x - imgWidth / 2, y - imgWidth / 2, x + imgWidth / 2, y + imgWidth / 2);
+
+        mCanvas.drawBitmap(bitmap, null, rect, null);
+
     }
 
     /**
@@ -254,7 +287,13 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
         Path path = new Path();
         path.addArc(mRange, tmpAngle, sweepAngle);
 
-        mCanvas.drawTextOnPath(mtrStr, path, 0, 0, mTextPaint);
+        //利用水平偏移量将文字居中
+
+        float textWidth = mTextPaint.measureText(mtrStr);
+        int hOffset = (int) (mRadius * Math.PI / mItemCount / 2 - textWidth / 2);
+
+        int vOffset = mRadius / 2 / 5;//垂直偏移量
+        mCanvas.drawTextOnPath(mtrStr, path, hOffset, vOffset, mTextPaint);
     }
 
     /**
@@ -273,12 +312,12 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback,Runn
 
         int width = Math.min(getMeasuredWidth(), getMeasuredWidth());
         //半径
-        mRadius = width - getPaddingLeft()*2;
+        mRadius = width - getPaddingLeft() * 2;
 
         mPadding = getPaddingLeft();
         //中心点
-        mCenter = width/2;
+        mCenter = width / 2;
 
-        setMeasuredDimension(width,width);
+        setMeasuredDimension(width, width);
     }
 }
