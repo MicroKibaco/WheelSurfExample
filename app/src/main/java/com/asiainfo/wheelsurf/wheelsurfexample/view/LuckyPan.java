@@ -43,7 +43,7 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
     /**
      * 盘快的奖项
      */
-    private String[] mtrStrs = new String[]{"SonyCamera", "MacAir2", "恭喜发财", "iPhone7Plus", "服装一套", "下次再来"};
+    private String[] mtrStrs = new String[]{"SonyCamera", "MacAir2", "恭喜发财", "iPhone7Plus", "Burberry风衣", "再接再厉!"};
 
     /**
      * 奖项的图片
@@ -247,6 +247,17 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
 
                 }
 
+                mStartAngle += mSpeed;
+
+                //如果点击了停止按钮
+                if (isShouldEnd) {
+                    mSpeed -= 1;
+                }
+
+                if (mSpeed <= 0) {
+                    mSpeed = 0;
+                    isShouldEnd = false;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,6 +268,37 @@ public class LuckyPan extends SurfaceView implements SurfaceHolder.Callback, Run
                 mHolder.unlockCanvasAndPost(mCanvas);
             }
         }
+    }
+
+    /**
+     * 点击启动旋转
+     */
+    public void luckyStart() {
+        mSpeed = 50;
+        isShouldEnd = false;
+    }
+
+    /**
+     * 点击停止旋转
+     */
+    public void luckyEnd() {
+        isShouldEnd = true;
+    }
+
+    /**
+     * 转盘是否在旋转
+     */
+    public boolean isStart() {
+
+        return mSpeed != 0;
+    }
+
+    /**
+     * 停止按钮是否按下
+     */
+    public boolean isShouldEnd() {
+
+        return isShouldEnd;
     }
 
     /**
